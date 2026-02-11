@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Room
         Route::get('rooms', [RoomController::class, 'index'])->name('room.index');
+        Route::post('rooms', [RoomController::class, 'store'])->name('room.store');
 
 
         // Item

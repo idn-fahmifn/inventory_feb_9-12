@@ -101,9 +101,8 @@
                 </div>
             </div>
 
-            <form method="post" action="#" class="space-y-6">
+            <form method="post" action="{{ route('room.store') }}" class="space-y-6">
                 @csrf
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <x-input-label for="room_name" value="Room Name" class="dark:text-slate-400" />
@@ -152,18 +151,20 @@
 
                 <div>
                     <x-input-label for="desc" value="Room Description" class="dark:text-slate-400" />
-                    <textarea name="desc" class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm" id=""></textarea>
+                    <textarea name="desc"
+                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm"
+                        id=""></textarea>
                     <x-input-error :messages="$errors->get('desc')" class="mt-2" />
                 </div>
 
                 <div class="mt-8 flex justify-end gap-3">
                     <button type="button" x-on:click="$dispatch('close')"
                         class="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
-                        Batal
+                        Cancel
                     </button>
                     <button type="submit"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 dark:shadow-none transition transform active:scale-95">
-                        Simpan Ruangan
+                        Save
                     </button>
                 </div>
             </form>
