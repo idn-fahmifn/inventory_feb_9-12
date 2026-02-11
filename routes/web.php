@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('users', [ProfileController::class, 'index'])->name('user.index');
         Route::post('users', [ProfileController::class, 'store'])->name('user.store');
         Route::get('users/{paramm}', [ProfileController::class, 'show'])->name('user.show');
+        Route::delete('users/{paramm}', [ProfileController::class, 'destroyUser'])->name('user.delete');
 
     });
 

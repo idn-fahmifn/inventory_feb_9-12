@@ -94,4 +94,11 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function destroyUser($param)
+    {
+        $data = User::findOrFail($param);
+        $data->delete();
+        return redirect()->route('user.index')->with('success', 'user has been deleted');
+    }
 }

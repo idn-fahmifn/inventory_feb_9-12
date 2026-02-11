@@ -4,19 +4,28 @@
             <h2 class="font-bold text-2xl text-slate-800 dark:text-slate-200 leading-tight">
                 {{ __('Detail User') }}
             </h2>
-            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-room')"
-                class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 dark:shadow-none transition-all duration-300 transform hover:scale-105">
-                + Add New
-            </button>
+
+            <x-danger-button x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete Account') }}</x-danger-button>
+
         </div>
     </x-slot>
 
     <div class="py-12 bg-[#F8FAFC] dark:bg-slate-950 min-h-screen transition-colors duration-500">
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4 ">
-            <div class="bg-white dark:bg-slate-900 rounded-md shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden py-4 px-4">
-                <h2 class="text-lg font-semibold text-slate-400 dark:text-slate-500 ">Detail <span class="uppercase font-bold">{{ $user->name }}</span></h2>
-                
+            <div
+                class="bg-white dark:bg-slate-900 rounded-md shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden py-4 px-4">
+                <h2 class="text-lg font-semibold text-slate-400 dark:text-slate-500 mb-4">Detail <span
+                        class="uppercase font-bold">{{ $user->name }}</span></h2>
+                <div class="py-2">
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Full Name </p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $user->name }}</p>
+                </div>
+                <div class="py-2">
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Email</p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $user->email }}</p>
+                </div>
             </div>
         </div>
 
@@ -29,23 +38,23 @@
                         <thead>
                             <tr
                                 class="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.2em] font-black bg-slate-50/50 dark:bg-slate-800/50">
-                                <th class="px-8 py-5">Name & Email</th>
-                                <th class="px-8 py-5">Number Of Rooms</th>
-                                <th class="px-8 py-5 text-right">Aksi</th>
+                                <th class="px-8 py-5">Room Name</th>
+                                <th class="px-8 py-5">Status</th>
+                                <th class="px-8 py-5 text-right">#</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
-                            @foreach ($rooms as $room)
+                            @forelse ($rooms as $room)
                                 <tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
                                     <td class="px-8 py-6">
                                         <div class="font-bold text-slate-700 dark:text-slate-200 text-sm">
-                                            {{ $room->name }}</div>
+                                            {{ $room->room_name }}</div>
                                         <div class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 tracking-wider">
-                                            {{ $room->email }}</div>
+                                            {{ $room->size }}</div>
                                     </td>
                                     <td class="px-8 py-6">
                                         <span class="text-sm text-slate-600 dark:text-slate-400 px-3 py-1 rounded-lg">
-                                            {{ $room->rooms_count }} room
+                                            {{ $room->status }} room
                                         </span>
                                     </td>
 
@@ -60,7 +69,15 @@
                                         </button>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+                                    <td colspan="3" class="px-8 py-6 text-center ">
+                                        <span class="text-sm text-slate-600 dark:text-slate-400 px-3 py-1 rounded-lg">
+                                            Room Not Found
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -68,75 +85,30 @@
         </div>
     </div>
 
-    <x-modal name="create-room" :show="false" focusable>
-        <div class="p-8 dark:bg-slate-900">
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h2 class="text-xl font-black text-slate-800 dark:text-white">
-                        Add Users
-                    </h2>
-                    <p class="text-sm text-slate-400 dark:text-slate-500 mt-1">Add new users for employee.</p>
-                </div>
-                <div class="p-3 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-500">
-                    {{-- <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg> --}}
+    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" action="{{ route('user.delete', $user->id) }}" class="p-6">
+            @csrf
+            @method('delete')
 
-                    <svg fill="rgb(239 246 255)" class="w-6 h-6" viewBox="0 0 100 100"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <circle cx="63.3" cy="47.6" r="10.7"></circle>
-                            <path
-                                d="M63.6,60.3h-.8A16.43,16.43,0,0,0,46.7,74.2c0,.7.2,2.4,2.7,2.4H76.6c2.5,0,2.7-1.5,2.7-2.4A15.65,15.65,0,0,0,63.6,60.3Z">
-                            </path>
-                            <path
-                                d="M48.6,58.3c.4-.4.1-.7.1-.7h0a17.94,17.94,0,0,1-3.1-10,17.18,17.18,0,0,1,3.2-10.2.1.1,0,0,1,.1-.1,1.76,1.76,0,0,0,.4-1.1V25.4a2.15,2.15,0,0,0-2-2H22.5a2.18,2.18,0,0,0-2,2.1V71.7H40a24.12,24.12,0,0,1,8.6-13.4ZM31.6,66a2.18,2.18,0,0,1-2.1,2.1H27.4A2.18,2.18,0,0,1,25.3,66V63.9a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Zm0-10.5a2.18,2.18,0,0,1-2.1,2.1H27.4a2.18,2.18,0,0,1-2.1-2.1V53.4a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Zm0-10.5a2.18,2.18,0,0,1-2.1,2.1H27.4A2.18,2.18,0,0,1,25.3,45V42.9a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Zm0-10.5a2.18,2.18,0,0,1-2.1,2.1H27.4a2.18,2.18,0,0,1-2.1-2.1V32.4a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Zm11.9,21a2.18,2.18,0,0,1-2.1,2.1H39.3a2.18,2.18,0,0,1-2.1-2.1V53.4a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Zm0-10.5a2.18,2.18,0,0,1-2.1,2.1H39.3A2.18,2.18,0,0,1,37.2,45V42.9a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Zm0-10.5a2.18,2.18,0,0,1-2.1,2.1H39.3a2.18,2.18,0,0,1-2.1-2.1V32.4a2.18,2.18,0,0,1,2.1-2.1h2.1a2.18,2.18,0,0,1,2.1,2.1Z">
-                            </path>
-                        </g>
-                    </svg>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Are you sure you want to delete this account?') }}
+            </h2>
 
-                </div>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Once this account is deleted, all of its resources and data will be permanently deleted.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Delete Account') }}
+                </x-danger-button>
             </div>
-
-            <form method="post" action="{{ route('user.store') }}" class="space-y-6">
-                @csrf
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <x-input-label for="name" value="Fullname" class="dark:text-slate-400" />
-                        <x-text-input id="name" name="name" type="text"
-                            class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
-                            placeholder="ex. Fahmi" />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-
-                    </div>
-
-                    <div>
-                        <x-input-label for="email" value="Email" class="dark:text-slate-400" />
-                        <x-text-input id="email" name="email" type="email"
-                            class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
-                            placeholder="ex. fahmi@test.com" />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
-                    </div>
-                </div>
-
-
-
-                <div class="mt-8 flex justify-end gap-3">
-                    <button type="button" x-on:click="$dispatch('close')"
-                        class="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 dark:shadow-none transition transform active:scale-95">
-                        Save
-                    </button>
-                </div>
-            </form>
-        </div>
+        </form>
     </x-modal>
+
+
 </x-app-layout>
