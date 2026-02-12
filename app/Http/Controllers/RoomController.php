@@ -49,5 +49,37 @@ class RoomController extends Controller
         return view('rooms.show', compact('room', 'user'));
     }
 
+    public function update(Request $request, $param)
+    {
+        $data = Room::where('slug', $param)->firstOrFail();
+        $request->validate([
+            'room_name' => ['required','string', 'max:30'],
+            'coordinator' => ['required','integer'],
+            'size' => ['required', 'in:small,medium,large'],
+            'status' => ['required', 'in:available,full,maintenance'],
+            'desc' => ['required']
+        ]);
+
+        $simpan = [
+            'room_name' => $request->input('room_name'),
+            'user_id' => $request->input('coordinator'),
+            'size' => $request->input('size'),
+            'status' => $request->input('status'),
+            'desc' => $request->input('desc'),
+            'slug' => Str::orderedUuid()
+        ];
+
+        $data->update($simpan);
+        return redirect()->route('room.show', $data->slug)->with('success', 'Room has been updated');
+
+    }
+
+    public function delete($param)
+    {
+        $data = Room::where('slug',$param);
+        $data->delete();
+        return redirect()->route('room.index')->with('success', 'Room has been deleted');
+    }
+
 
 }

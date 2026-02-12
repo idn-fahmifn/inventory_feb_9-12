@@ -24,11 +24,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('rooms', [RoomController::class, 'index'])->name('room.index');
         Route::post('rooms', [RoomController::class, 'store'])->name('room.store');
         Route::get('rooms/{paramm}', [RoomController::class, 'show'])->name('room.show');
+        Route::put('rooms/{paramm}', [RoomController::class, 'update'])->name('room.update');
+        Route::delete('rooms/{paramm}', [RoomController::class, 'delete'])->name('room.delete');
 
 
 
         // Item
         Route::get('items', [ItemController::class, 'index'])->name('item.index');
+        Route::post('items', [ItemController::class, 'store'])->name('item.store');
+        Route::get('items/{paramm}', [ItemController::class, 'show'])->name('item.show');
+        Route::put('items/{paramm}', [ItemController::class, 'update'])->name('item.update');
+        Route::delete('items/{paramm}', [ItemController::class, 'delete'])->name('item.delete');
+
 
         Route::get('users', [ProfileController::class, 'index'])->name('user.index');
         Route::post('users', [ProfileController::class, 'store'])->name('user.store');
