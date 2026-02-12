@@ -118,4 +118,17 @@ class ItemController extends Controller
 
     }
 
+    public function delete($param)
+    {
+        $data = Item::where('slug', $param)->firstOrFail();
+        $path_lama = 'public/images/items/' . $data->image;
+
+        if ($data->image && Storage::exists($path_lama)) {
+            Storage::delete($path_lama);
+        }
+        $data->delete();
+        return redirect()->route('item.index')->with('success', 'Room has been deleted');
+        
+    }
+
 }

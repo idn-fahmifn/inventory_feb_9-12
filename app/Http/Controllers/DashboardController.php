@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\Room;
 use Carbon\Carbon;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function admin()
     {
         $stats = [
-            'total_assets' => 1248,
-            'good_condition' => 1102,
-            'needs_repair' => 146,
-            'locations_count' => 12,
+            'total_assets' => Item::count(),
+            'good_condition' => Item::where('condition', 'good')->count(),
+            'needs_repair' => Item::where('condition', 'maintenance')->count(),
+            'locations_count' => Room::count(),
         ];
 
         // Data Riwayat Pergerakan Dummy (Manual Collection)
@@ -75,11 +79,14 @@ class DashboardController extends Controller
 
     public function petugas()
     {
+
+        $login = Room::where('user_id',Auth::user()->id)->withCount('items')->get();
+
         $stats = [
-            'total_assets' => 1248,
+            'total_assets' => 10,
             'good_condition' => 1102,
             'needs_repair' => 146,
-            'locations_count' => 12,
+            'locations_count' => $login->count(),
         ];
 
         // Data Riwayat Pergerakan Dummy (Manual Collection)
@@ -136,6 +143,6 @@ class DashboardController extends Controller
             ],
         ]);
 
-        return view('user-dashboard', compact('stats', 'recent_movements'));
+        return view('user-dashboard', compact('stats', 'recent_movements', 'login'));
     }
 }

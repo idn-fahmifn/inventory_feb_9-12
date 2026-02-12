@@ -59,7 +59,7 @@
                     </div>
                     <div>
                         <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Lokasi</p>
-                        <h3 class="text-2xl font-black text-slate-800 dark:text-white">{{ $stats['locations_count'] }} Titik</h3>
+                        <h3 class="text-2xl font-black text-slate-800 dark:text-white">{{ $stats['locations_count'] }} Area</h3>
                     </div>
                 </div>
             </div>

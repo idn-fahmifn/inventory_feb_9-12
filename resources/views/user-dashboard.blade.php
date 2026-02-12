@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+
+
     <div class="py-12 bg-[#F8FAFC] dark:bg-slate-950 transition-colors duration-500">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
@@ -18,9 +20,15 @@
                     </div>
                     <div>
                         <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Total Barang</p>
-                        <h3 class="text-2xl font-black text-slate-800 dark:text-white">{{ number_format($stats['total_assets']) }}</h3>
+                        <p class="text-2xl text-slate-800 dark:text-white">
+                            @foreach ($login as $data)
+                                {{ $data->items_count }}
+                            @endforeach
+                        </p>
                     </div>
                 </div>
+
+
 
                 <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-3xl shadow-lg shadow-blue-200 dark:shadow-none text-white hover:opacity-90 transition-opacity">
                     <div class="flex justify-between items-start">
