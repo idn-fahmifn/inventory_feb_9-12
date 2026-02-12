@@ -133,6 +133,7 @@
             <form method="post" action="{{ route('item.update', $item->slug) }}" enctype="multipart/form-data"
                 class="space-y-6">
                 @csrf
+                @method('put')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <x-input-label for="item_name" value="Item Name" class="dark:text-slate-400" />
