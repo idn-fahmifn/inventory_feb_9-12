@@ -149,36 +149,43 @@
                     </div>
 
                     <div>
-                        <x-input-label for="location" value="Location" class="dark:text-slate-400" />
-                        <x-text-input id="image" name="image" type="file"
+                        <x-input-label for="stok" value="Stock" class="dark:text-slate-400" />
+                        <x-text-input id="stok" name="stok" type="number"
                             class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
                             placeholder="ex. Rucika" />
-                        <x-input-error :messages="$errors->get('image')" class="mt-2" />
-
+                        <x-input-error :messages="$errors->get('stok')" class="mt-2" />
                     </div>
+
+
                 </div>
 
                 <div>
-                    <x-input-label for="size" value="Size" class="dark:text-slate-400" />
-                    <select id="size" name="size"
-                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm">
-                        <option disabled>Choose Size</option>
-                        <option value="small">small</option>
-                        <option value="medium">medium</option>
-                        <option value="large">large</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('size')" class="mt-2" />
+                    <x-input-label for="image" value="Image Item" class="dark:text-slate-400" />
+                    <x-text-input id="image" name="image" type="file"
+                        class="mt-1 block w-full rounded-xl px-2 py-8 border border-dotted"
+                        placeholder="ex. Rucika" />
+                    <x-input-error :messages="$errors->get('image')" class="mt-2" />
+
                 </div>
+
                 <div>
-                    <x-input-label for="status" value="status" class="dark:text-slate-400" />
-                    <select id="status" name="status"
+                    <x-input-label for="date_purchase" value="Date Purchase" class="dark:text-slate-400" />
+                    <x-text-input id="date_purchase" name="date_purchase" type="number"
+                        class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
+                        placeholder="ex. Rucika" />
+                    <x-input-error :messages="$errors->get('date_purchase')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="condition" value="Condition" class="dark:text-slate-400" />
+                    <select id="condition" name="condition"
                         class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm">
-                        <option disabled>Choose Size</option>
-                        <option value="available">available</option>
-                        <option value="full">full</option>
+                        <option disabled>Choose Condition</option>
+                        <option value="good">Good</option>
+                        <option value="broke">Broke</option>
                         <option value="maintenance">maintenance</option>
                     </select>
-                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('condition')" class="mt-2" />
                 </div>
 
                 <div>
