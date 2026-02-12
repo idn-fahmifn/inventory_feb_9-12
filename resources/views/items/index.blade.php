@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <form method="post" action="{{ route('item.store') }}" class="space-y-6">
+            <form method="post" action="{{ route('item.store') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -170,7 +170,7 @@
 
                 <div>
                     <x-input-label for="date_purchase" value="Date Purchase" class="dark:text-slate-400" />
-                    <x-text-input id="date_purchase" name="date_purchase" type="number"
+                    <x-text-input id="date_purchase" name="date_purchase" type="date"
                         class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
                         placeholder="ex. Rucika" />
                     <x-input-error :messages="$errors->get('date_purchase')" class="mt-2" />
@@ -189,7 +189,7 @@
                 </div>
 
                 <div>
-                    <x-input-label for="desc" value="Room Description" class="dark:text-slate-400" />
+                    <x-input-label for="desc" value="Item Description" class="dark:text-slate-400" />
                     <textarea name="desc"
                         class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm"
                         id=""></textarea>
