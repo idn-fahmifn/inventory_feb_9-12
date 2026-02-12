@@ -37,8 +37,17 @@ class RoomController extends Controller
             'slug' => Str::orderedUuid()
         ];
 
-        return $simpan;
+        Room::create($simpan);
+        return redirect()->route('room.index')->with('success', 'Room has been created');
 
     }
+
+    public function show($param)
+    {
+        $room = Room::where('slug', $param)->firstOrFail();
+        $user = User::where('isAdmin', false)->get();
+        return view('rooms.show', compact('room', 'user'));
+    }
+
 
 }

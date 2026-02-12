@@ -24,6 +24,7 @@
                                 <th class="px-8 py-5">Room Name</th>
                                 <th class="px-8 py-5">Status</th>
                                 <th class="px-8 py-5 text-right">Coordintor</th>
+                                <th class="px-8 py-5 text-right">#</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
@@ -31,18 +32,34 @@
                                 <tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
                                     <td class="px-8 py-6">
                                         <div class="font-bold text-slate-700 dark:text-slate-200 text-sm">
-                                            {{ $room->name }}</div>
+                                            {{ $room->room_name }}</div>
                                         <div class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 tracking-wider">
-                                            {{ $room->email }}</div>
+                                            {{ $room->size }}</div>
                                     </td>
                                     <td class="px-8 py-6">
-                                        <span class="text-sm text-slate-600 dark:text-slate-400 px-3 py-1 rounded-lg">
-                                            {{ $room->rooms_count }} room
+                                        <span
+                                            class="inline-flex items-center text-[10px] font-black uppercase tracking-widest {{ $room->status === 'available' ? 'text-emerald-500' : ($room->status === 'maintenance' ? 'text-amber-500' : 'text-rose-500') }}">
+                                            <span
+                                                class="w-2 h-2 rounded-full mr-2 animate-pulse {{ $room->status === 'available' ? 'bg-emerald-500' : ($room->status === 'maintenance' ? 'bg-amber-500' : 'bg-rose-500') }}"></span>
+                                            {{ $room->status }}
                                         </span>
                                     </td>
 
+                                    <td class="px-8 py-6">
+                                        @if ($room->user_id == null)
+                                            <span
+                                                class="text-sm text-slate-50 dark:text-slate-50 px-3 py-1 rounded-lg bg-red-600">
+                                                no coordinator
+                                            </span>
+                                        @else
+                                            <span class="text-sm text-slate-50 dark:text-slate-50 px-3 py-1 rounded-lg">
+                                                {{ $room->user->name }}
+                                            </span>
+                                        @endif
+                                    </td>
+
                                     <td class="px-8 py-6 text-right">
-                                        <a href="{{ route('user.show', $user->id) }}"
+                                        <a href="{{ route('room.show', $room->slug) }}"
                                             class="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mx-2">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">

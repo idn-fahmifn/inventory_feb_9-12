@@ -2,11 +2,16 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-bold text-2xl text-slate-800 dark:text-slate-200 leading-tight">
-                {{ __('Detail User') }}
+                {{ __('Detail Room') }}
             </h2>
 
             <x-danger-button x-data=""
                 x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">{{ __('Delete Account') }}</x-danger-button>
+
+            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-room')"
+                class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 dark:shadow-none transition-all duration-300 transform hover:scale-105">
+                + Add New
+            </button>
 
         </div>
     </x-slot>
@@ -17,14 +22,27 @@
             <div
                 class="bg-white dark:bg-slate-900 rounded-md shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden py-4 px-4">
                 <h2 class="text-lg font-semibold text-slate-400 dark:text-slate-500 mb-4">Detail <span
-                        class="uppercase font-bold">{{ $user->name }}</span></h2>
+                        class="uppercase font-bold">{{ $room->room_name }}</span></h2>
                 <div class="py-2">
-                    <p class="font-semibold text-slate-400 dark:text-slate-500">Full Name </p>
-                    <p class="text-slate-400 dark:text-slate-500">{{ $user->name }}</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Room Name </p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $room->room_name }}</p>
                 </div>
                 <div class="py-2">
-                    <p class="font-semibold text-slate-400 dark:text-slate-500">Email</p>
-                    <p class="text-slate-400 dark:text-slate-500">{{ $user->email }}</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Status</p>
+                    <span
+                        class="inline-flex items-center text-[10px] font-black uppercase tracking-widest {{ $room->status === 'available' ? 'text-emerald-500' : ($room->status === 'maintenance' ? 'text-amber-500' : 'text-rose-500') }}">
+                        <span
+                            class="w-2 h-2 rounded-full mr-2 animate-pulse {{ $room->status === 'available' ? 'bg-emerald-500' : ($room->status === 'maintenance' ? 'bg-amber-500' : 'bg-rose-500') }}"></span>
+                        {{ $room->status }}
+                    </span>
+                </div>
+                <div class="py-2">
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Size</p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $room->size }}</p>
+                </div>
+                <div class="py-2">
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Room Description</p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $room->desc }}</p>
                 </div>
             </div>
         </div>
