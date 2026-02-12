@@ -47,13 +47,21 @@ class ItemController extends Controller
             $ext = $img->getClientOriginalExtension();
             $name = 'image_items_' . Carbon::now('Asia/Jakarta')->format('Ymdhis') . '.' . $ext; //image_items_20260212839043.jpg
             $simpan['image'] = $name;
-
+            // simpan file ke storage : 
+            $img->storeAs($path, $name);
         }
 
-        return $simpan;
+        // return $simpan;
 
-        // Room::create($simpan);
-        // return redirect()->route('room.index')->with('success', 'Room has been created');
+        Item::create($simpan);
+        return redirect()->route('item.index')->with('success', 'Room has been created');
 
+    }
+
+    public function show($param)
+    {
+        $item = Item::where('slug', $param)->firstOrFail();
+        $rooms = Room::all();
+        return view('items.show', compact('item', 'rooms'));
     }
 }

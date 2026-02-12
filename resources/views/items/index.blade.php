@@ -23,7 +23,7 @@
                                 class="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.2em] font-black bg-slate-50/50 dark:bg-slate-800/50">
                                 <th class="px-8 py-5">Item Name</th>
                                 <th class="px-8 py-5">Stock</th>
-                                <th class="px-8 py-5 text-right">Location</th>
+                                <th class="px-8 py-5">Location</th>
                                 <th class="px-8 py-5 text-right">#</th>
                             </tr>
                         </thead>

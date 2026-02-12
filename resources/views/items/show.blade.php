@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-bold text-2xl text-slate-800 dark:text-slate-200 leading-tight">
-                {{ __('Detail Room') }}
+                {{ __('Detail Item') }}
             </h2>
 
             <div class="">
@@ -12,7 +12,7 @@
 
                 <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-room')"
                     class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 dark:shadow-none transition-all duration-300 transform hover:scale-105">
-                    + Edit Room
+                    + Edit Item
                 </button>
             </div>
 
@@ -26,27 +26,35 @@
             <div
                 class="bg-white dark:bg-slate-900 rounded-md shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden py-4 px-4">
                 <h2 class="text-lg font-semibold text-slate-400 dark:text-slate-500 mb-4">Detail <span
-                        class="uppercase font-bold">{{ $room->room_name }}</span></h2>
+                        class="uppercase font-bold">{{ $item->item_name }}</span></h2>
                 <div class="py-2">
-                    <p class="font-semibold text-slate-400 dark:text-slate-500">Room Name </p>
-                    <p class="text-slate-400 dark:text-slate-500">{{ $room->room_name }}</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Item Name </p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $item->item_name }}</p>
                 </div>
                 <div class="py-2">
-                    <p class="font-semibold text-slate-400 dark:text-slate-500">Status</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Brand </p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $item->brand }}</p>
+                </div>
+                <div class="py-2">
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Condition</p>
                     <span
-                        class="inline-flex items-center text-[10px] font-black uppercase tracking-widest {{ $room->status === 'available' ? 'text-emerald-500' : ($room->status === 'maintenance' ? 'text-amber-500' : 'text-rose-500') }}">
+                        class="inline-flex items-center text-[10px] font-black uppercase tracking-widest {{ $item->condition === 'good' ? 'text-emerald-500' : ($item->condition === 'maintenance' ? 'text-amber-500' : 'text-rose-500') }}">
                         <span
-                            class="w-2 h-2 rounded-full mr-2 animate-pulse {{ $room->status === 'available' ? 'bg-emerald-500' : ($room->status === 'maintenance' ? 'bg-amber-500' : 'bg-rose-500') }}"></span>
-                        {{ $room->status }}
+                            class="w-2 h-2 rounded-full mr-2 animate-pulse {{ $item->condition === 'good' ? 'bg-emerald-500' : ($item->condition === 'maintenance' ? 'bg-amber-500' : 'bg-rose-500') }}"></span>
+                        {{ $item->condition }}
                     </span>
                 </div>
                 <div class="py-2">
-                    <p class="font-semibold text-slate-400 dark:text-slate-500">Size</p>
-                    <p class="text-slate-400 dark:text-slate-500">{{ $room->size }}</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Stock</p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $item->stok }}</p>
                 </div>
                 <div class="py-2">
-                    <p class="font-semibold text-slate-400 dark:text-slate-500">Room Description</p>
-                    <p class="text-slate-400 dark:text-slate-500">{{ $room->desc }}</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Date Purchase</p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $item->date_purchase }}</p>
+                </div>
+                <div class="py-2">
+                    <p class="font-semibold text-slate-400 dark:text-slate-500">Item Description</p>
+                    <p class="text-slate-400 dark:text-slate-500">{{ $item->desc }}</p>
                 </div>
             </div>
         </div>
@@ -55,60 +63,16 @@
 
             <div
                 class="bg-white dark:bg-slate-900 rounded-md shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr
-                                class="text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.2em] font-black bg-slate-50/50 dark:bg-slate-800/50">
-                                <th class="px-8 py-5">Room Name</th>
-                                <th class="px-8 py-5">Status</th>
-                                <th class="px-8 py-5 text-right">#</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
-                            {{-- @forelse ($rooms as $room)
-                                <tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
-                                    <td class="px-8 py-6">
-                                        <div class="font-bold text-slate-700 dark:text-slate-200 text-sm">
-                                            {{ $room->room_name }}</div>
-                                        <div class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 tracking-wider">
-                                            {{ $room->size }}</div>
-                                    </td>
-                                    <td class="px-8 py-6">
-                                        <span class="text-sm text-slate-600 dark:text-slate-400 px-3 py-1 rounded-lg">
-                                            {{ $room->status }} room
-                                        </span>
-                                    </td>
-
-                                    <td class="px-8 py-6 text-right">
-                                        <button
-                                            class="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mx-2">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
-                                    <td colspan="3" class="px-8 py-6 text-center ">
-                                        <span class="text-sm text-slate-600 dark:text-slate-400 px-3 py-1 rounded-lg">
-                                            Room Not Found
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforelse --}}
-                        </tbody>
-                    </table>
+                <div class="overflow-x-auto flex justify-center py-4">
+                    <img src="{{ asset('storage/images/items/' . $item->image) }}" class="img-fluid" width="400"
+                        alt="Gambar Produk">
                 </div>
             </div>
         </div>
     </div>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('room.delete', $room->slug) }}" class="p-6">
+        <form method="post" action="{{ route('item.delete', $item->slug) }}" class="p-6">
             @csrf
             @method('delete')
 
@@ -166,63 +130,88 @@
                 </div>
             </div>
 
-            <form method="post" action="{{ route('room.update', $room->slug) }}" class="space-y-6">
+            <form method="post" action="{{ route('item.update', $item->slug) }}" enctype="multipart/form-data"
+                class="space-y-6">
                 @csrf
-                @method('put')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <x-input-label for="room_name" value="Room Name" class="dark:text-slate-400" />
-                        <x-text-input id="room_name" name="room_name" type="text"
+                        <x-input-label for="item_name" value="Item Name" class="dark:text-slate-400" />
+                        <x-text-input id="item_name" name="item_name" type="text"
                             class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
-                            :value="old('room_name', $room->room_name)" />
-                        <x-input-error :messages="$errors->get('room_name')" class="mt-2" />
+                            placeholder="Server" :value="old('item_name', $item->item_name)" />
+                        <x-input-error :messages="$errors->get('item_name')" class="mt-2" />
                     </div>
 
                     <div>
-                        <x-input-label for="coordinator" value="Coordinator" class="dark:text-slate-400" />
-                        <select id="coordinator" name="coordinator"
+                        <x-input-label for="location" value="Location" class="dark:text-slate-400" />
+                        <select id="location" name="location"
                             class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm">
-                            <option value="" disabled> - Choose coordinator - </option>
-                            @foreach ($user as $row)
-                                <option value="{{ $row->id }}" @selected(old('user_id', $room->user_id == $row->id))>{{ $row->name }}
+                            <option value="" disabled> - Choose location - </option>
+                            @foreach ($rooms as $row)
+                                <option value="{{ $row->id }}" @selected(old('room_id', $item->room_id == $row->id))>{{ $row->room_name }}
                                 </option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('coordinator')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('location')" class="mt-2" />
 
                     </div>
                 </div>
 
-                <div>
-                    <x-input-label for="size" value="Size" class="dark:text-slate-400" />
-                    <select id="size" name="size"
-                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm">
-                        <option disabled>Choose Size</option>
-                        <option value="{{ $room->size }}">{{ $room->size }}</option>
-                        <option value="small">small</option>
-                        <option value="medium">medium</option>
-                        <option value="large">large</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('size')" class="mt-2" />
-                </div>
-                <div>
-                    <x-input-label for="status" value="status" class="dark:text-slate-400" />
-                    <select id="status" name="status"
-                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm">
-                        <option disabled>Choose Status</option>
-                        <option value="{{ $room->status }}">{{ $room->status }}</option>
-                        <option value="available">available</option>
-                        <option value="full">full</option>
-                        <option value="maintenance">maintenance</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <x-input-label for="brand" value="Brand" class="dark:text-slate-400" />
+                        <x-text-input id="brand" name="brand" type="text"
+                            class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
+                            placeholder="ex. Rucika" :value="old('brand', $item->brand)" />
+                        <x-input-error :messages="$errors->get('brand')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="stok" value="Stock" class="dark:text-slate-400" />
+                        <x-text-input id="stok" name="stok" type="number"
+                            class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
+                            placeholder="ex. Rucika" :value="old('stok', $item->stok)" />
+                        <x-input-error :messages="$errors->get('stok')" class="mt-2" />
+                    </div>
+
+
                 </div>
 
                 <div>
-                    <x-input-label for="desc" value="Room Description" class="dark:text-slate-400" />
+                    <x-input-label for="image" value="Image Item" class="dark:text-slate-400" />
+                    <x-text-input id="image" name="image" type="file"
+                        class="mt-1 block w-full rounded-xl px-2 py-8 border border-dotted"
+                        placeholder="ex. Rucika" />
+                    <x-input-error :messages="$errors->get('image')" class="mt-2" />
+
+                </div>
+
+                <div>
+                    <x-input-label for="date_purchase" value="Date Purchase" class="dark:text-slate-400" />
+                    <x-text-input id="date_purchase" name="date_purchase" type="date"
+                        class="mt-1 block w-full dark:bg-slate-800 dark:border-slate-700 rounded-xl"
+                        placeholder="ex. Rucika" :value="old('date_purchase', $item->date_purchase)" />
+                    <x-input-error :messages="$errors->get('date_purchase')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="condition" value="Condition" class="dark:text-slate-400" />
+                    <select id="condition" name="condition"
+                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm">
+                        <option disabled>Choose Condition</option>
+                        <option value="{{ $item->condition }}">{{ $item->condition }}</option>
+                        <option value="good">Good</option>
+                        <option value="broke">Broke</option>
+                        <option value="maintenance">maintenance</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('condition')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="desc" value="Item Description" class="dark:text-slate-400" />
                     <textarea name="desc"
                         class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl shadow-sm"
-                        id="">{{ $room->desc }}</textarea>
+                        id="">{{ $item->desc }}</textarea>
                     <x-input-error :messages="$errors->get('desc')" class="mt-2" />
                 </div>
 
@@ -237,6 +226,8 @@
                     </button>
                 </div>
             </form>
+
+
 
 
 
